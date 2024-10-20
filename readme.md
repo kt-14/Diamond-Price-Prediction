@@ -8,6 +8,10 @@ The project includes:
 - features.py: A script to analyze feature importances from the trained model.
 - train.py: A script to train the Random Forest model on the diamond dataset.
 - app.py: A Flask web app that serves the prediction interface
+- model.joblib: Pretrained Model
+```
+https://tinyurl.com/DWM-Model
+```
 
 ## Prerequisites
 
@@ -21,8 +25,8 @@ pip install -r requirements.txt
 
 1. Clone the repository:
 ```
-   git clone https://github.com/yourusername/diamond-price-prediction.git
-   cd diamond-price-prediction
+git clone https://github.com/yourusername/diamond-price-prediction.git
+cd diamond-price-prediction
 ```
 ## Usage
 
