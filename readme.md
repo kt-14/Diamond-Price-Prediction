@@ -45,7 +45,7 @@ pip install -r requirements.txt
 
 Run the train.py script to train the model and save it for later use:
 
-python train.py
+   python train.py
 
 This script will output the Mean Squared Error and R² score, and save the trained model as model.joblib.
 
