@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diamond Price Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+            background-image: url('../static/image.png'); /* Use '../' to go up one level */
+            background-size: cover; /* Cover the entire viewport */
+            background-position: center; /* Center the image */
+            background-repeat: no-repeat; /* Prevent repeating */
+            opacity: 0.9; /* Slight transparency for better readability */
+        }
+
+        .separator {
+            height: 3px; /* Height of the line */
+            background-color: #28a745; /* Color of the line */
+            margin-bottom: 20px; /* Space below the line */
+            width: 100%; /* Full width */
+            max-width: 500px; /* Max width to match the form */
+            margin-left: auto; /* Centering */
+            margin-right: auto; /* Centering */
+        }
+
+        .title-container {
+            background: white; /* White background */
+            padding: 10px; /* Padding around the title */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            margin-bottom: 20px; /* Space below the title container */
+	    margin: 20px auto; /* Center it horizontally */
+            width: 300px; /* Set a fixed width */
+        }
+
+        form {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+
+        .inline-inputs {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px; /* Space between inputs */
+        }
+
+        .inline-inputs input {
+            width: 32%; /* Adjust width to fit three inputs */
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .result-container {
+            background: white; /* White background for the result */
+            padding: 20px; /* Padding for spacing */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            margin: 20px auto; /* Center it horizontally */
+            width: 300px; /* Set a fixed width */
+            display: none; /* Hide it initially */
+            text-align: center; /* Center the text */
+        }
+
+        h2 {
+            text-align: center; /* Center the title */
+            margin: 0; /* Remove margin for better alignment */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="separator"></div>
+    <div class="title-container">
+        <h2>Diamond Price Prediction</h2>
+    </div>
+
+    <form id="diamond-form" action="/predict" method="POST">
+        <label for="carat">Carat</label>
+        <input type="number" id="carat" name="carat" step="0.01" required style="width: calc(96%);">
+
+        <label for="clarity">Clarity</label>
+        <select id="clarity" name="clarity" required>
+            <option value="" disabled selected>Select Clarity</option>
+            <option value="IF">IF (Internally Flawless)</option>
+            <option value="VVS1">VVS1 (Very, Very Slightly Included 1)</option>
+            <option value="VVS2">VVS2 (Very, Very Slightly Included 2)</option>
+            <option value="VS1">VS1 (Very Slightly Included 1)</option>
+            <option value="VS2">VS2 (Very Slightly Included 2)</option>
+            <option value="SI1">SI1 (Slightly Included 1)</option>
+            <option value="SI2">SI2 (Slightly Included 2)</option>
+        </select>
+
+        <label for="xyz">Dimensions (X, Y, Z in mm)</label>
+        <div class="inline-inputs">
+            <input type="number" id="X" name="X" placeholder="X" step="0.01" required>
+            <input type="number" id="Y" name="Y" placeholder="Y" step="0.01" required>
+            <input type="number" id="Z" name="Z" placeholder="Z" step="0.01" required>
+        </div>
+
+        <label for="color">Color</label>
+        <select id="color" name="color" required>
+            <option value="" disabled selected>Select Color</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+            <option value="G">G</option>
+            <option value="H">H</option>
+            <option value="I">I</option>
+            <option value="J">J</option>
+        </select>
+
+        <button type="submit">Predict Price</button>
+    </form>
+
+    <div id="result" class="result-container">
+        <h3>Predicted Price: <span id="predicted-price">N/A</span></h3>
+    </div>
+
+    <script>
+        function formatCurrency(value) {
+            const parts = value.toString().split(".");
+            const integerPart = parts[0];
+            const decimalPart = parts.length > 1 ? "." + parts[1] : "";
+
+            // Format integer part using Indian numbering
+            const lastThreeDigits = integerPart.substring(integerPart.length - 3);
+            const otherDigits = integerPart.substring(0, integerPart.length - 3);
+            const formattedInteger = otherDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + (otherDigits ? "," : "") + lastThreeDigits;
+
+            return '₹ ' + formattedInteger + decimalPart;
+        }
+
+        document.getElementById('diamond-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch('/predict', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const formattedPrice = formatCurrency(data.predicted_price);
+                document.getElementById('predicted-price').innerText = formattedPrice;
+                document.getElementById('result').style.display = 'block'; // Show the result
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+
+</body>
+</html>
