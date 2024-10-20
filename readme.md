@@ -13,7 +13,7 @@ The project includes:
 
 Make sure you have the following packages installed:
 
-pip install -r requirements.txt
+`pip install -r requirements.txt`
 
 ## Installation
 
