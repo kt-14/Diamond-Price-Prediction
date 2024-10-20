@@ -13,7 +13,9 @@ The project includes:
 
 Make sure you have the following packages installed:
 
-```bash pip install -r requirements.txt```
+```
+pip install -r requirements.txt
+```
 
 ## Installation
 
