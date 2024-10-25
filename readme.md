@@ -10,7 +10,7 @@ The project includes:
 - app.py: A Flask web app that serves the prediction interface
 - model.joblib: Pretrained Model
 ```
-https://tinyurl.com/DWM-Model
+https://viteduin59337-my.sharepoint.com/:u:/g/personal/gautham_nair_vit_edu_in/EUQ7iozXJj9AltB8jzjRvlIBdB-8w6GRzEhlhSxCgMV11g?e=wnhvGg
 ```
 
 ## Prerequisites
