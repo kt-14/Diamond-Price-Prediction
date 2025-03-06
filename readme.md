@@ -9,8 +9,9 @@ The project includes:
 - train.py: A script to train the Random Forest model on the diamond dataset.
 - app.py: A Flask web app that serves the prediction interface
 - model.joblib: Pretrained Model
+- To download the model.joblib file, navigate to the link below:
 ```
-https://viteduin59337-my.sharepoint.com/:u:/g/personal/gautham_nair_vit_edu_in/EUQ7iozXJj9AltB8jzjRvlIBdB-8w6GRzEhlhSxCgMV11g?e=wnhvGg
+https://viteduin59337-my.sharepoint.com/:f:/g/personal/kartik_thatikonda_vit_edu_in/ErRIUvrSmJ1DuqUB0L5ZNeIB-ybajItsHvNDWmepK3R6hg?e=eXwc99
 ```
 
 ## Prerequisites
